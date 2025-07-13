@@ -12,6 +12,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import "./SignIn.css";
 
+
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 

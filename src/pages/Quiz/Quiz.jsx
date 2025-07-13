@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import LikertSlider from "./LikertSlider"; // import the component
 import "./Quiz.css";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { app } from "../../firebase";
+
+
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 const questions = [
   "You enjoy connecting ideas across unrelated subjects.",
@@ -54,6 +61,30 @@ const PersonalityTest = () => {
     setResponses(updated);
   };
 
+  const saveResponsesToFirestore = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("User not signed in!");
+    return;
+  }
+
+  const quizRef = doc(db, "users", user.uid, "quiz", "response");
+
+  const dataToSave = {
+    responses,
+    submittedAt: new Date(),
+  };
+
+  try {
+    await setDoc(quizRef, dataToSave);
+    alert("Quiz saved in subcollection!");
+  } catch (error) {
+    console.error("Error:", error.message);
+    alert("Error saving to Firestore.");
+  }
+};
+
+
   return (
 <div className="container">
     <div className="quiz">
@@ -73,6 +104,10 @@ const PersonalityTest = () => {
       ))}
       
     </div>
+    <button className="submit-btn" onClick={saveResponsesToFirestore}>
+       Submit
+    </button>
+
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Jockey+One&display=swap");
 
 * {
@@ -62,7 +63,7 @@ input{
 }
 
 .email-icon, .google-icon{
-    background-color: rgba(164, 125, 226, 0.0001); ;
+    background-color: rgba(164, 125, 226, 0.0001); 
     border: none;
     width: 10px;
     display: flex;
@@ -108,4 +109,7 @@ button{
   clip-path: polygon(0 60%, 100% 0, 100% 100%, 0% 100%);
 
 
+}
+.link{
+    color: black;
 }

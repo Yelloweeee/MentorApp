@@ -1,3 +1,4 @@
+@import "tailwindcss";
 .quiz{
     display: flex;
     flex-direction: column;

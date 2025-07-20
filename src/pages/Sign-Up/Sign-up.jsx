@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../../firebase";
 import "./SignUp.css"
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { Link, Navigate,useNavigate } from "react-router-dom";
 
 
 
@@ -15,8 +16,13 @@ const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName]=useState("");
+  const navigate=useNavigate();
 
   const createUser = async () => {
+    if(!email && !password){
+      alert('Enter the details')
+      return
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -26,6 +32,9 @@ const SignupPage = () => {
         email: user.email,
         createdAt: new Date(),
         name:name
+
+
+      
       };
 
       await setDoc(doc(db, "users", user.uid), userData);
@@ -34,7 +43,10 @@ const SignupPage = () => {
     } catch (error) {
       console.error("Error signing up:", error.message);
       alert("Error: " + error.message);
+      return;
     }
+
+    navigate('/Quiz')
   };
 
   return (
@@ -64,8 +76,22 @@ const SignupPage = () => {
         required
         placeholder="Password"
       />
-
       <button onClick={createUser}>Sign Up</button>
+
+      
+      
+      
+      
+      <div  >
+        
+          <div id="switch">
+            <div id="switchCommand">Already have an account?</div>
+           <Link id="switch" to='/LoginPage'>Login</Link> 
+
+          </div>
+        </div>
+      
+      
     </div>
   );
 };

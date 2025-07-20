@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import "./SignIn.css";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate,Link } from "react-router-dom";
 
 
 const auth = getAuth(app);
@@ -20,20 +22,29 @@ const SigninPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visibleSection, setVisibleSection] = useState("email");
-
+  const navigate=useNavigate();
+// here the submit btn s logic works 
   const signinUser = () => {
     signInWithEmailAndPassword(auth, email, password).then(() => {
       console.log("Success");
       setEmail("");
       setPassword("");
-    });
+      navigate('/HomePage');
+    })
+    .catch(()=>{
+      
+      alert('invalid email or password or Sign up doesnt took place');
+      return;
+  }
+)
+
   };
 
-  const createUser = () => {
-    createUserWithEmailAndPassword(auth, email, password).then((value) =>
-      alert("Success")
-    );
-  };
+  // const createUser = () => {
+  //   createUserWithEmailAndPassword(auth, email, password).then((value) =>
+  //     alert("Success")
+  //   );
+  // };
 
   const signupWithGoogle = () => {
     signInWithPopup(auth, googleProvider);
@@ -91,7 +102,9 @@ const SigninPage = () => {
       )}
 
       <div className="up">
-        <h4>New? Sign Up now!</h4>
+        <h4>New?<div> 
+          Sign Up now!
+          <Link to='/SignupPage' className="link">Sign Up</Link></div></h4>
       </div>
 
       <div class="slanted-box"></div>

@@ -4,6 +4,7 @@ import "./Quiz.css";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 
 const db = getFirestore(app);
@@ -54,6 +55,7 @@ const questions = [
 
 const PersonalityTest = () => {
   const [responses, setResponses] = useState(Array(questions.length).fill(4)); // default to neutral
+  const navigate=useNavigate();
 
   const handleSliderChange = (index, value) => {
     const updated = [...responses];
@@ -61,7 +63,12 @@ const PersonalityTest = () => {
     setResponses(updated);
   };
 
+  
+  
+  
+  // After submit btn
   const saveResponsesToFirestore = async () => {
+   
   const user = auth.currentUser;
   if (!user) {
     alert("User not signed in!");
@@ -80,8 +87,14 @@ const PersonalityTest = () => {
     alert("Quiz saved in subcollection!");
   } catch (error) {
     console.error("Error:", error.message);
+  
     alert("Error saving to Firestore.");
+    return ;
+
   }
+
+navigate('/HomePage')
+
 };
 
 
